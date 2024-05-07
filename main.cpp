@@ -197,6 +197,178 @@ void shopping::add()
 }
 
 
+void shopping::edit()
+{
+    fstream data, tempData;
+    int productKey, token = 0, c;
+    double p, d;
+    string n;
+
+    cout << "\n\n\t\t_______Edit Product________\n\n";
+    cout << "\n\tTo edit enter product code : ";
+    cin >> productKey;
+
+    data.open("shopdata.txt", ios::in);
+    if(!data)
+    {
+        cout << "\n\tFile does not exit.\n";
+    }
+    else
+    {
+        tempData.open("tempData.txt", ios::app | ios::out);
+        data >> pCode >> price >> discount >> productName;
+
+        while(!data.eof())
+        {
+            if(productKey == pcode)
+            {
+                cout << "\n\tEnter New Product Code : ";
+                cin >> c;
+                cout << "\n\tEnter New Prouduct Price : ";
+                cin >> p;
+                cout << "\n\tEnter Product Name : ";
+                cin >> n;
+                cout << "\n\tEnter Product Discount Range : ";
+                cin >> d;
+                tempData << " " << c << " " << p << " "  << d << " " << n << "\n";
+                cout << "\n\n\tProduct update is successful ...\n";
+
+                token++;
+            }
+            else
+            {
+                tempData << " " << pCode << " " << price << " "  << discount << " " << productName << "\n";
+            }
+        }
+
+        data.close();
+        tempData.close();
+
+        remove("shopdata.txt");
+        rename("tempData.txt", "shopdata.txt");
+
+        if(token == 0)
+            cout << "\n\n\tSorry!.. no product found.\n";
+    }
+}
+
+void shopping::delete()
+{
+    fstream data, tempData;
+    int productkey, token=0;
+
+    cout << "\n\n\t\t_________Delete Product_________\n\n";
+    cout << "\n\tEnter Product Code : ";
+    cin >> productkey;
+
+    data.open("shopdata.txt", ios::in);
+
+    if(!data)
+    {
+        cout << "\n\tFile does not exit\n";
+    }
+    else
+    {
+        tempData.open("tempData.txt", ios::app | ios::out);
+        data >> pCode >> price >> discount >> productName >> endl;
+        while(!data.eof())
+        {
+            if(pCode == productkey)
+            {
+                cout << "\n\tProduct deleted successful.\n";
+                token ++;
+            }
+            else
+            {
+                tempData << " " << pCode << " " << price << " " << discount << " " << productName << endl;
+            }
+
+            data >> pCode >> price >> discount >> productName >> endl;
+        }
+
+        data.close();
+        tempData.close();
+        remove("shopdata.txt");
+        rename("tempData.txt" , "shopdata.txt");
+
+        if(token == 0)
+            cout << "\n\n\tNo record found !!! \n";
+
+    }
+
+}
+
+
+void shopping::list()
+{
+    fstream data;
+    cout << "\n\n\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n";
+    cout << "\t|    Product Code   |            Product Name          |      Price      |\n\n";
+    data.open("shopdata.txt", ios::in);
+    data >> pCode >> price >> productName >> endl;
+
+    while(!data.eof())
+    {
+        data << "\n\t|    " << pCode << "   |       " << productName << "       |      " << price << "   |" << endl;
+
+        data >> pCode >> price >> productName;
+    }
+
+    data.close();
+}
+
+
+void shopping::receipt()
+{
+    m:
+    fstream data;
+    int arrCode[100], arrQuantity[100];
+    char choice;
+    int code=0;
+    double amount=0, disc=0, total=0;
+
+    cout << "\n\n\t\t__________Receipt__________\n\n";
+
+    data.open("shopdata.txt", ios::in);
+    if(!data)
+    {
+        cout << "\n\n\tData does not exit....\n";
+    }
+    else
+    {
+        data.close();
+        list();
+
+        cout << endl << endl;
+        cout << "\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n";
+        cout << "\t|                                                          |\n";
+        cout << "\t|                 * * * Place an order * * *               |\n";
+        cout << "\t|                                                          |\n";
+        cout << "\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n";
+
+        do{
+            cout << "\n\n\tEnter product code : \n";
+            cin >> arrCode[code];
+            cout << "\nEnter product quantity : \n";
+            cin >> arrQuantity[code];
+
+            for(int i=0; i<code; i++)
+            {
+                if(arrCode[code] == arrCode[i])
+                {
+                    cout << "\n\tDuplicate product code. Please try again...\n";
+                    goto m;
+                }
+            }
+            code++;
+
+            cout << "\n\tDo you want to buy another product ? Please choice ( y / n ) : ";
+            cin >> choice;
+        }while(choice == 'y');
+
+
+    }
+}
 
 
 int main()
