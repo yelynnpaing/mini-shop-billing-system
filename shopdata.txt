@@ -1,0 +1,3 @@
+ 1 1000 10 Earphone
+ 2 50 5 Pencil
+ 3 70 5 Ballpen

@@ -17,22 +17,23 @@ class Shopping
         void buyer();
         void add();
         void edit();
-        void delete();
+        void del();
         void list();
-        void report();
+        void receipt();
 };
 
 
 void Shopping::mainMenu()
 {
     m:
+    system("Color 09");
     int choice;
     string email, password;
 
     cout << "\n\n\n\n";
     cout << "\t\t\t_________ Mini Shop Billing System ________" << endl << endl << endl << endl;
-    cout << "\t1 ] Buyer\n\n" ;
-    cout << "\t2 ] Administrator\n\n";
+    cout << "\t1 ] Administrator\n\n" ;
+    cout << "\t2 ] Buyer\n\n";
     cout << "\t0 ] Exit Application\n\n";
 
     cout <<"\nEnter your choice (0 to 2) : ";
@@ -43,13 +44,13 @@ void Shopping::mainMenu()
         case 1:
             system("cls");
             system("Color 0A");
-            cout << "\t\n* * * Please Login to continue * * * ";
-            cout << "\nEnter admin email : ";
+            cout << "\n\t\t* * * Please Login to continue * * * ";
+            cout << "\n\n\nEnter admin email : ";
             cin >> email;
             cout << "\nEnter password : ";
             cin >> password;
 
-            if(email = "admin@gmail.com" && password = "admin123")
+            if(email == "admin@gmail.com" && password == "admin123")
             {
                 administrator();
             }
@@ -75,18 +76,20 @@ void Shopping::mainMenu()
 void Shopping::administrator()
 {
     m:
-    int choice();
+    int choice;
 
-    cout << "\n\t\t________Admin Dashboard_______\n\n";
+    cout << "\n\n\n\t________Admin Dashboard________\n\n";
     cout << "\t|       1 ] Add record        |\n";
     cout << "\t|                             |\n";
     cout << "\t|       2 ] Modify record     |\n";
     cout << "\t|                             |\n";
     cout << "\t|       3 ] Delete record     |\n";
     cout << "\t|                             |\n";
-    cout << "\t|       4 ] Back to main menu |\n";
+    cout << "\t|       4 ] Show record       |\n";
+    cout << "\t|                             |\n";
+    cout << "\t|       5 ] Back to main menu |\n";
 
-    cout << "Enter your choice [1 to 4] : ";
+    cout << "\n\nEnter your choice [1 to 4] : ";
     cin >> choice;
 
     switch(choice)
@@ -101,9 +104,14 @@ void Shopping::administrator()
             break;
         case 3:
             system("cls");
-            delete();
+            del();
             break;
         case 4:
+            system("cls");
+            cout << "\n\n\t\t\t\tProuct List\n\n";
+            list();
+            break;
+        case 5:
             system("cls");
             mainMenu();
             break;
@@ -113,7 +121,7 @@ void Shopping::administrator()
     goto m;
 }
 
-void shopping::buyer()
+void Shopping::buyer()
 {
     m:
     int choice;
@@ -124,14 +132,14 @@ void shopping::buyer()
     cout << "\t|     2 ] Go Back          |\n";
     cout << "\t|                          |\n";
 
-    cout << "\nEnter your choice [1 to 2] : ";
+    cout << "\n\tEnter your choice [1 to 2] : ";
     cin >> choice;
 
     switch(choice)
     {
         case 1:
             system("cls");
-            report();
+            receipt();
             break;
         case 2:
             system("cls");
@@ -144,8 +152,9 @@ void shopping::buyer()
 }
 
 
-void shopping::add()
+void Shopping::add()
 {
+    m:
     fstream data;
     int c, token=0;
     float p, d;
@@ -171,14 +180,14 @@ void shopping::add()
     }
     else
     {
-        data >> c >> p >> d >> n >> endl;
+        data >> c >> p >> d >> n;
         while(!data.eof())
         {
             if(c == pCode)
             {
                 token++;
             }
-            data >> c >> p >> d >> n >> endl;
+            data >> c >> p >> d >> n;
         }
         data.close();
 
@@ -193,11 +202,11 @@ void shopping::add()
         }
     }
 
-    cout << "\n\n\tRecord is successfull inserted.";
+    cout << "\n\n\tNew record is successfully inserted.\n\n";
 }
 
 
-void shopping::edit()
+void Shopping::edit()
 {
     fstream data, tempData;
     int productKey, token = 0, c;
@@ -220,7 +229,7 @@ void shopping::edit()
 
         while(!data.eof())
         {
-            if(productKey == pcode)
+            if(productKey == pCode)
             {
                 cout << "\n\tEnter New Product Code : ";
                 cin >> c;
@@ -239,6 +248,7 @@ void shopping::edit()
             {
                 tempData << " " << pCode << " " << price << " "  << discount << " " << productName << "\n";
             }
+            data >> pCode >> price >> discount >> productName;
         }
 
         data.close();
@@ -252,7 +262,7 @@ void shopping::edit()
     }
 }
 
-void shopping::delete()
+void Shopping::del()
 {
     fstream data, tempData;
     int productkey, token=0;
@@ -269,8 +279,8 @@ void shopping::delete()
     }
     else
     {
-        tempData.open("tempData.txt", ios::app | ios::out);
-        data >> pCode >> price >> discount >> productName >> endl;
+        tempData.open("tempData.txt", ios::app|ios::out);
+        data >> pCode >> price >> discount >> productName;
         while(!data.eof())
         {
             if(pCode == productkey)
@@ -283,7 +293,7 @@ void shopping::delete()
                 tempData << " " << pCode << " " << price << " " << discount << " " << productName << endl;
             }
 
-            data >> pCode >> price >> discount >> productName >> endl;
+            data >> pCode >> price >> discount >> productName;
         }
 
         data.close();
@@ -299,35 +309,35 @@ void shopping::delete()
 }
 
 
-void shopping::list()
+void Shopping::list()
 {
     fstream data;
-    cout << "\n\n\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n";
-    cout << "\t|    Product Code   |            Product Name          |      Price      |\n\n";
+    cout << "\n\n\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n";
+    cout << "\t|    Product Code   |            Product Name          |      Price      |       Discount      |\n";
+    cout << "\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n";
     data.open("shopdata.txt", ios::in);
-    data >> pCode >> price >> productName >> endl;
+    data >> pCode >> price >> discount >> productName;
 
     while(!data.eof())
     {
-        data << "\n\t|    " << pCode << "   |       " << productName << "       |      " << price << "   |" << endl;
+        cout << "\n\t|    " << pCode << "\t\t   |       " << productName << "\t\t       |      " << price << "   |    " <<  discount << " %    |" << endl;
 
-        data >> pCode >> price >> productName;
+        data >> pCode >> price >> discount >> productName;
     }
-
+    cout << "\n\n\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n";
     data.close();
 }
 
 
-void shopping::receipt()
+void Shopping::receipt()
 {
-    m:
     fstream data;
     int arrCode[100], arrQuantity[100];
     char choice;
     int code=0;
     double amount=0, disc=0, total=0;
 
-    cout << "\n\n\t\t__________Receipt__________\n\n";
+    cout << "\n\n\t\t\t\t__________PRODUCTS LIST__________\n\n";
 
     data.open("shopdata.txt", ios::in);
     if(!data)
@@ -339,7 +349,7 @@ void shopping::receipt()
         data.close();
         list();
 
-        cout << endl << endl;
+        cout << endl << endl << endl ;
         cout << "\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n";
         cout << "\t|                                                          |\n";
         cout << "\t|                 * * * Place an order * * *               |\n";
@@ -347,9 +357,10 @@ void shopping::receipt()
         cout << "\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n";
 
         do{
-            cout << "\n\n\tEnter product code : \n";
+            m:
+            cout << "\n\n\tEnter product code : ";
             cin >> arrCode[code];
-            cout << "\nEnter product quantity : \n";
+            cout << "\n\tEnter product quantity : ";
             cin >> arrQuantity[code];
 
             for(int i=0; i<code; i++)
@@ -361,18 +372,48 @@ void shopping::receipt()
                 }
             }
             code++;
-
             cout << "\n\tDo you want to buy another product ? Please choice ( y / n ) : ";
             cin >> choice;
         }while(choice == 'y');
 
+        cout << "\n\n\t\t\t\tRECEIPT\n";
+        cout << "\t\t\t\t- - - - \n\n";
+        cout << "\t_______________________________________________________________________________________________\n";
+        cout << "\tProduct Code" << "\tProduct Name" << "\tQuantity" << "\tPrice" << "\t\tAmount" << "\t\tDiscount\n";
+        cout << "\t_______________________________________________________________________________________________\n";
+
+        for(int i=0; i<code; i++)
+        {
+            data.open("shopdata.txt", ios::in);
+            data >> pCode >> price >> discount >> productName;
+
+            while(!data.eof())
+            {
+                if( pCode == arrCode[i] )
+                {
+                    amount = price * arrQuantity[i];
+                    disc = amount - (amount * discount/100);
+                    total = total + disc;
+
+                    cout << "\n\t\t" << pCode << "\t" << productName << "\t\t   " << arrQuantity[i] << "\t\t" << price << "\t\t" << amount << "\t\t" << disc;
+                }
+
+                data >> pCode >> price >> discount >> productName;
+            }
+        }
+        data.close();
 
     }
+    cout << "\n\t_______________________________________________________________________________________________\n";
+    cout << "\n\n\tTotal is " << total << endl;
+    cout << "\n\t_______________________________________________________________________________________________\n";
 }
 
 
 int main()
 {
+    Shopping shopping;
+    shopping.mainMenu();
 
     return 0;
 }
