@@ -1,3 +1,4 @@
- 1 1000 10 Earphone
+ 1 60 2 Mango
  2 50 5 Pencil
  3 70 5 Ballpen
+ 4 90 1 Mouse

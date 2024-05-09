@@ -312,7 +312,7 @@ void Shopping::del()
 void Shopping::list()
 {
     fstream data;
-    cout << "\n\n\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n";
+    cout << "\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n";
     cout << "\t|    Product Code   |            Product Name          |      Price      |       Discount      |\n";
     cout << "\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n";
     data.open("shopdata.txt", ios::in);
@@ -376,6 +376,12 @@ void Shopping::receipt()
             cin >> choice;
         }while(choice == 'y');
 
+        ///Test array
+        ///cout << "\n\narrCode[100] members : " << endl;
+        ///for(int i=0; i<code; i++){
+            ///cout << "arrCode : " << arrCode[i] << endl;
+        ///}
+
         cout << "\n\n\t\t\t\tRECEIPT\n";
         cout << "\t\t\t\t- - - - \n\n";
         cout << "\t_______________________________________________________________________________________________\n";
@@ -389,6 +395,11 @@ void Shopping::receipt()
 
             while(!data.eof())
             {
+                ///test member of product code and member of array
+
+                ///cout << "\npCode : " << pCode << endl;
+                ///cout << "\narrCode : " << arrCode[i] << endl;
+
                 if( pCode == arrCode[i] )
                 {
                     amount = price * arrQuantity[i];
@@ -399,6 +410,7 @@ void Shopping::receipt()
                 }
 
                 data >> pCode >> price >> discount >> productName;
+                i++;
             }
         }
         data.close();
